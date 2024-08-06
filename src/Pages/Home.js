@@ -51,8 +51,9 @@ export const Home = () => {
   const transformedArray = subjects.map(subject => {
     const t1 = `${subject.title} - ${subject.code}`;
     const t2 = (!teacher) ? subject.staff.name : `${subject.klass.department} - ${subject.klass.section}`;
-    
-    return { t1, t2 };
+    const sub_id = subject.id;
+
+    return { t1, t2 ,sub_id};
   });
 
   return (
@@ -60,7 +61,7 @@ export const Home = () => {
     <div className="grid grid-cols-2 gap-5">
   {
     transformedArray.map((t, index) => (
-        <Card key={index} t1={t.t1} t2={t.t2} />
+        <Card key={index} t1={t.t1} t2={t.t2} sub={t.sub_id}/>
     ))
   }
     </div>
