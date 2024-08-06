@@ -1,19 +1,11 @@
+import { Link } from "react-router-dom";
 
-export const Card = ({pro}) => {
+export const Card = ({t1,t2}) => {
   
-    const {image,price,name} = pro;
-    console.log(image);
-
     return (
-    <div className='p-2 rounded border max-w-xs text-sm my-3'>
-        <div >
-            <img src={image} alt={image} className="max-w-full h-[250px]" />
-            <p className='mt-5'>{name}</p>
-            <div className='flex justify-between my-2'>
-                <p className='my-auto'>${price}</p>
-                <p className='bg-blue-500 text-slate-100 p-1 rounded'>Add To Cart</p>
-            </div>
-        </div>
-    </div>
+        <Link to="xyz" className="block max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{t1}</h5>
+            <p className="font-normal text-gray-700 dark:text-gray-400">{t2}</p>
+        </Link>
   )
 }

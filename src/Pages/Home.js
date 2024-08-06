@@ -1,20 +1,70 @@
-import { Card } from "../Components/Card"
+// import { Card } from "../Components/Card"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card } from "../Components/Card";
 
 export const Home = () => {
+
+  const navi = useNavigate();
+  const id = JSON.parse(localStorage.getItem("jwt"));
+  const teacher = JSON.parse(localStorage.getItem("teacher"));
+  
+  useEffect(() => {
+    if (!id) {
+      navi("/");
+    }
+  }, [id, navi]);
     
-  const products = [
-    {"id": 1, "name": "Sony Wh-Ch510 Bluetooth Wireless", "price": 149, "image": "/asserts/1001.png"},
-    {"id": 2, "name": "boAt Rockerz 450", "price": 49, "image": "/asserts/1002.png"},
-    {"id": 3, "name": "JBL Tune 760NC", "price": 179, "image": "/asserts/1003.png"},
-    {"id": 4, "name": "Logitech H111 Wired", "price": 39, "image": "/asserts/1004.png"},
-    {"id": 5, "name": "APPLE Airpods Max Bluetooth Headset", "price": 199, "image": "/asserts/1005.png"},
-    {"id": 6, "name": "ZEBRONICS Zeb-Thunder Wired", "price": 29, "image": "/asserts/1006.png"}
-  ]
+  const [subjects, setSubjects] = useState(null);
+
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      const url = 'http://localhost:8000/api/user/subject/';
+
+      try {
+        const res = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${id}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        setSubjects(data);
+      } catch (error) {
+        console.error('There was an error with the request:', error);
+      }
+    };
+
+    fetchSubjects();
+
+  }, [id]);
+  if (!subjects) {
+    return <p>Loading...</p>;
+  }
+
+  const transformedArray = subjects.map(subject => {
+    const t1 = `${subject.title} - ${subject.code}`;
+    const t2 = (!teacher) ? subject.staff.name : `${subject.klass.department} - ${subject.klass.section}`;
+    
+    return { t1, t2 };
+  });
+
   return (
-    <div className="max-w-5xl m-auto flex justify-between flex-wrap">
-        {products.map(pro => (
-            <Card key={pro.id} pro={pro} />
-        ))}
+    <div className="max-w-4xl m-auto my-12">
+    <div className="grid grid-cols-2 gap-5">
+  {
+    transformedArray.map((t, index) => (
+        <Card key={index} t1={t.t1} t2={t.t2} />
+    ))
+  }
     </div>
+</div>
+
   )
 }
