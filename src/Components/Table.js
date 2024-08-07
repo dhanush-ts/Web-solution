@@ -46,7 +46,7 @@ export const Table = () => {
     return <p>Loading...</p>;
   }
 
-  console.log(resu);
+  // console.log(resu);
 
   const formatTimeRange = (startTime, durationInHours) => {
     const [startHour, startMinute] = startTime.split(':').map(Number);

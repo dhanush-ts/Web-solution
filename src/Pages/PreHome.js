@@ -89,7 +89,7 @@ export const PreHome = () => {
           )}
           {activeTab === 'attendance' && (!teacher) && (
             <div className="attendance-section">
-              <h1 className="text-2xl font-semibold mb-4">Attendance</h1>
+              {/* <h1 className="text-2xl font-semibold mb-4">Attendance</h1> */}
               <Attendance />
             </div>
           )}
