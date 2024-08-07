@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TimeTable } from "../Components/TimeTable";
+import { LP } from "../Components/LP"
+import { Feedback } from "../Components/Feedback"
+import { Interactions } from "../Components/Interactions"
+import { SutFeed } from '../Components/SutFeed';
 
 export const Subject = () => {
   const { id } = useParams();
@@ -50,9 +54,9 @@ export const Subject = () => {
   };
 
   return (
-    <div className='max-w-6xl flex justify-center m-auto my-24'>
+    <div className='mx-6 my-6'>
       <div className="md:flex">
-        <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
+      <ul className="flex-column space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
           <li>
             <p
               onClick={() => handleTabClick('marks')}
@@ -76,7 +80,6 @@ export const Subject = () => {
           </li>
           <li>
             <p
-              
               onClick={() => handleTabClick('feedback')}
               className={`inline-flex items-center px-4 py-3 rounded-lg w-full ${feedbackTab ? 'bg-blue-700 text-white dark:bg-blue-600' : 'bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white'}`}
             >
@@ -101,24 +104,27 @@ export const Subject = () => {
         </ul>
         <div className="w-full">
           {marksTab && (
-            <TimeTable  examData={ex} teacher={teacher}/>
+            <div className="section">
+              <h1 className="text-2xl font-semibold mb-4">Marks</h1>
+              <TimeTable  examData={ex} teacher={teacher}/>
+            </div>
           )}
           {learningPathTab && (
             <div className="learning-path-section">
               <h1 className="text-2xl font-semibold mb-4">Learning Path</h1>
-              <p>Here you can find the learning path for the subject.</p>
+              <LP id = {id} jwt={jwt} />
             </div>
           )}
           {feedbackTab && (
             <div className="feedback-section">
               <h1 className="text-2xl font-semibold mb-4">Feedback</h1>
-              <p>Here you can find feedback on your performance.</p>
+              {teacher?<Feedback id = {id} jwt={jwt} />:<SutFeed subject_id = {id} jwt={jwt} />}
             </div>
           )}
           {interactionTab && teacher && (
             <div className="interaction-section">
               <h1 className="text-2xl font-semibold mb-4">Interactions</h1>
-              <p>Here you can interact with your students or teachers.</p>
+              <Interactions id = {id} jwt={jwt} />
             </div>
           )}
         </div>
