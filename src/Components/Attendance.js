@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../api';
 
 export const Attendance = () => {
-  const navi = useNavigate();
+  const navigate = useNavigate();
   const [resu, setSubjects] = useState(null); // Initialize as null to handle loading state
   const jwt = JSON.parse(localStorage.getItem("jwt"));
 
   useEffect(() => {
     if (!jwt) {
-      navi("/");
+      navigate("/");
     }
-  }, [jwt, navi]);
+  }, [jwt, navigate]);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -44,10 +44,34 @@ export const Attendance = () => {
     return <p>Loading...</p>;
   }
 
-  const { total, present, late, absent } = resu;
+  const { total, present, late, absent, data } = resu;
 
   const calculatePercentage = (count) => {
     return ((count / total) * 100).toFixed(2);
+  };
+
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case 1:
+        return 'Present';
+      case 2:
+        return 'Late';
+      case 0:
+      default:
+        return 'Absent';
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 1:
+        return 'text-green-600';
+      case 2:
+        return 'text-yellow-600';
+      case 0:
+      default:
+        return 'text-red-600';
+    }
   };
 
   return (
@@ -70,6 +94,16 @@ export const Attendance = () => {
           <span className="text-lg font-medium text-gray-700">Absent</span>
           <span className="text-lg font-semibold text-red-600">{absent} ({calculatePercentage(absent)}%)</span>
         </div>
+      </div>
+      <h3 className="text-xl font-bold mt-6 text-gray-800">Daily Attendance</h3>
+      <div className="mt-4 space-y-4">
+        {data.map((entry, index) => (
+          <div key={index} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-md">
+            <span className="text-lg font-medium text-gray-700">{entry.date}</span>
+            <span className="text-lg font-medium text-gray-700">{entry.time}</span>
+            <span className={`text-lg font-semibold ${getStatusColor(entry.status)}`}>{getStatusLabel(entry.status)}</span>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ export const Table = () => {
 
   const navi = useNavigate();
   const [resu, setSubjects] = useState([]);
+  const teacher = JSON.parse(localStorage.getItem("teacher"))
   const jwt = JSON.parse(localStorage.getItem("jwt"))
 
   useEffect(() => {
@@ -80,10 +81,10 @@ export const Table = () => {
               <div>
                 <h2 className="text-lg font-semibold">{period.subject.title}</h2>
                 <p className="text-gray-600">{period.subject.code}</p>
-                <p className="text-gray-600">
-                  {`Year ${period.subject.klass.year} ${period.subject.klass.department} ${period.subject.klass.section}`}
-                </p>
-                <p className="text-gray-600">{period.subject.staff.name}</p>
+                {teacher && <p className="text-gray-600">
+                 {`Year ${period.subject.klass.year} ${period.subject.klass.department} ${period.subject.klass.section}`}
+                </p>}
+                {(!teacher) && <p className="text-gray-600">{period.subject.staff.name}</p>}
               </div>
               <div>
                 <p className="text-xl font-bold text-gray-800">

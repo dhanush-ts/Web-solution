@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { api } from '../api';
 
 export const Events = () => {
@@ -10,6 +10,46 @@ export const Events = () => {
   const [department, setDepartment] = useState('');
 
   const id = JSON.parse(localStorage.getItem("jwt"));
+
+    const [resu, setRes] = useState([]);
+
+    useEffect(() => {
+
+        const fetchSubjects = async () => {
+          const url = `${api}features/events/`;
+    
+          try {
+            const res = await fetch(url, {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${id}`,
+                'Content-Type': 'application/json',
+              },
+            });
+    
+            if (!res.ok) {
+              throw new Error(`HTTP error! status: ${res.status}`);
+            }
+    
+            const data = await res.json();
+            setRes(data);
+            console.log(data);
+          } catch (error) {
+            console.error('There was an error with the request:', error);
+          }
+        };
+    
+        fetchSubjects();
+      }, [id]);
+    
+      if (!resu) {
+        return <p>Loading...</p>;
+      }
+
+      const formatDate = (dateString) => {
+        const options = { day: '2-digit', month: 'long', year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('default', options);
+      };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +85,19 @@ export const Events = () => {
   };
 
   return (
+    <div>
+
+<ol className="relative border-l border-gray-200 dark:border-gray-700">
+      {resu.map(event => (
+        <li key={event.id} className="mb-4 ml-4">
+          <div className="absolute w-3 h-3 bg-gray-200 rounded-full -left-1.5 mt-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+          <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{formatDate(event.date)}</time>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{event.title}</h3>
+          <p className="text-base font-normal text-gray-500 dark:text-gray-400">{event.description}</p>
+        </li>
+      ))}
+    </ol>
+
     <form className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md" onSubmit={handleSubmit}>
       <h2 className="text-2xl font-semibold mb-6">Add New Event</h2>
 
@@ -111,6 +164,8 @@ export const Events = () => {
 
       <p>{sta}</p>
     </form>
+
+    </div>
   );
 };
 

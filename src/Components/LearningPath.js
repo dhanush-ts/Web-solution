@@ -6,6 +6,8 @@ export const LearningPath = () => {
   const [file, setFile] = useState(null);
   const [category, setCategory] = useState('');
   const subjectID = useParams("id").id;
+  const [name, setName] = useState('');
+  
 
   const jwt = JSON.parse(localStorage.getItem("jwt"))
 
@@ -23,9 +25,9 @@ export const LearningPath = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('category', category);
-    formData.append('subjectID', subjectID);
+    formData.append('name', name);
 
-    const url = `${api}student/material/`;
+    const url = `${api}student/material/${subjectID}/`;
 
     try {
       const response = await fetch(url, {
@@ -72,6 +74,19 @@ export const LearningPath = () => {
             id="category"
             value={category}
             onChange={handleCategoryChange}
+            className="w-full px-3 py-2 border rounded-lg"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
           />

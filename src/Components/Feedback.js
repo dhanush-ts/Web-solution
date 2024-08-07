@@ -40,8 +40,9 @@ export const Feedback = ({ id, jwt }) => {
     <div className="feedback-container bg-white rounded-lg p-6 shadow-lg">
       <h2 className="text-2xl font-bold mb-6">Overall Rating</h2>
       <div className="flex items-center mb-8">
-        <span className="text-4xl font-extrabold text-blue-600">{resu.overall_rating.toFixed(1)}</span>
+        <span className="text-4xl font-extrabold text-blue-600">{resu.overall_rating!==null?resu.overall_rating.toFixed(1):0}</span>
         <span className="ml-2 text-xl text-gray-500">/ 5</span>
+        <span className="mx-6 font-light text-gray-500"> ({resu.feedback.length}) responses</span>
       </div>
       <div className="feedback-list space-y-6">
         <h3 className="text-xl font-semibold mb-4">Feedback</h3>
