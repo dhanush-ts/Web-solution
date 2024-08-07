@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { api } from "../api";
 
 export const SutFeed = ({subject_id, jwt}) => {
     const [rating, setRating] = useState(3);
@@ -17,7 +18,7 @@ export const SutFeed = ({subject_id, jwt}) => {
       console.log(feedbackData)
   
       try {
-        const res = await fetch(`http://localhost:8000/api/features/feedback/`, {
+        const res = await fetch(`${api}features/feedback/`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${jwt}`,

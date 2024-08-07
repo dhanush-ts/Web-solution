@@ -5,6 +5,8 @@ import { LP } from "../Components/LP"
 import { Feedback } from "../Components/Feedback"
 import { Interactions } from "../Components/Interactions"
 import { SutFeed } from '../Components/SutFeed';
+import { api } from '../api';
+import { LearningPath } from '../Components/LearningPath';
 
 export const Subject = () => {
   const { id } = useParams();
@@ -20,7 +22,7 @@ export const Subject = () => {
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      const url = `http://localhost:8000/api/student/mark/${id}/`;
+      const url = `${api}student/mark/${id}/`;
 
       try {
         const res = await fetch(url, {
@@ -111,13 +113,13 @@ export const Subject = () => {
           )}
           {learningPathTab && (
             <div className="learning-path-section">
-              <h1 className="text-2xl font-semibold mb-4">Learning Path</h1>
-              <LP id = {id} jwt={jwt} />
+              {/* <h1 className="text-2xl font-semibold mb-4">Learning Path</h1> */}
+              {teacher?<LearningPath id = {id} />:<LP jwt={jwt} />}
             </div>
           )}
           {feedbackTab && (
             <div className="feedback-section">
-              <h1 className="text-2xl font-semibold mb-4">Feedback</h1>
+              {/* <h1 className="text-2xl font-semibold mb-4">Feedback</h1> */}
               {teacher?<Feedback id = {id} jwt={jwt} />:<SutFeed subject_id = {id} jwt={jwt} />}
             </div>
           )}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import { api } from "../api";
 
 export const SignIn = () => {
   const navi = useNavigate();
@@ -16,7 +17,7 @@ export const SignIn = () => {
     const [response, setResponse] = useState(null);
 
   const handleLogin = async (event) => {
-    const url = 'http://localhost:8000/api/user/login/';
+    const url = `${api}user/login/`;
     const body = {
       id: id,
       user_type: teacher? "staff" :"student",

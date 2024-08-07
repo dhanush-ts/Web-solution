@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "../Components/Card";
+import { api } from "../api";
 
 export const Home = () => {
 
@@ -19,7 +20,7 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      const url = 'http://localhost:8000/api/user/subject/';
+      const url = `${api}user/subject/`;
 
       try {
         const res = await fetch(url, {

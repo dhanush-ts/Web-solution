@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { api } from "../api";
 
 export const Feedback = ({ id, jwt }) => {
-  const [resu, setRes] = useState(null); // Set initial state to null
+  const [resu, setRes] = useState(null);
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      const url = `http://localhost:8000/api/features/feedback/${id}/`;
+      const url = `${api}features/feedback/${id}/`;
 
       try {
         const res = await fetch(url, {
@@ -29,34 +30,32 @@ export const Feedback = ({ id, jwt }) => {
     };
 
     fetchSubjects();
-  }, [id, jwt]); // Add id and jwt as dependencies
+  }, [id, jwt]);
 
   if (!resu) {
     return <p>Loading...</p>;
   }
 
   return (
-    <div className="feedback-container bg-white rounded-lg p-4 shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Overall Rating</h2>
-      <div className="flex items-center mb-6">
-        <span className="text-2xl font-bold">{resu.overall_rating.toFixed(1)}</span>
-        <span className="ml-2 text-gray-500">/ 5</span>
+    <div className="feedback-container bg-white rounded-lg p-6 shadow-lg">
+      <h2 className="text-2xl font-bold mb-6">Overall Rating</h2>
+      <div className="flex items-center mb-8">
+        <span className="text-4xl font-extrabold text-blue-600">{resu.overall_rating.toFixed(1)}</span>
+        <span className="ml-2 text-xl text-gray-500">/ 5</span>
       </div>
-      <div className="feedback-list">
-        <h3 className="text-lg font-semibold mb-2">Feedback</h3>
+      <div className="feedback-list space-y-6">
+        <h3 className="text-xl font-semibold mb-4">Feedback</h3>
         {resu.feedback.map((item, index) => (
           <div
             key={index}
-            className="feedback-item border-b border-gray-200 py-2"
+            className="feedback-item border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-sm"
           >
-            <div className="flex items-center">
+            <div className="flex items-center justify-between mb-2">
               <div className="flex items-center">
                 {[...Array(5)].map((star, i) => (
                   <svg
                     key={i}
-                    className={`w-5 h-5 ${
-                      i < item.rating ? 'text-yellow-500' : 'text-gray-300'
-                    }`}
+                    className={`w-6 h-6 ${i < item.rating ? 'text-yellow-400' : 'text-gray-300'}`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -64,11 +63,8 @@ export const Feedback = ({ id, jwt }) => {
                   </svg>
                 ))}
               </div>
-              <span className="ml-2 text-sm text-gray-600">
-                {item.rating.toFixed(1)}
-              </span>
             </div>
-            <p className="mt-2 text-gray-700">{item.comment}</p>
+            <p className="mt-2 text-gray-800 leading-relaxed">{item.comment}</p>
           </div>
         ))}
       </div>

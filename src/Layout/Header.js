@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { api } from '../api';
 
 export const Header = () => {
 
@@ -21,7 +22,7 @@ export const Header = () => {
   
     useEffect(() => {
       const fetchSubjects = async () => {
-        const url = 'http://localhost:8000/api/user/profile/';
+        const url = `${api}user/profile/`;
   
         try {
           const res = await fetch(url, {
