@@ -58,7 +58,7 @@ export const Home = () => {
 
   return (
     <div className="max-w-4xl m-auto my-12">
-    <div className="grid grid-cols-2 gap-5">
+    <div className="mx-5 grid grid-cols-2 gap-5">
   {
     transformedArray.map((t, index) => (
         <Card key={index} t1={t.t1} t2={t.t2} sub={t.sub_id}/>

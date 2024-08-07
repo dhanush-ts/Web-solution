@@ -2,8 +2,14 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 export const SignIn = () => {
+  const navi = useNavigate();
+  const jwt = localStorage.getItem("jwt");
+    useEffect(() => {
+      if (jwt) {
+        navi("nwhm");
+      }
+    }, [jwt, navi]);
 
-    const navi = useNavigate();
     const [teacher, setTeacher] = useState(false);
     const [id, setId] = useState('');
     const password = 'Changeme@123';
@@ -42,7 +48,7 @@ export const SignIn = () => {
       if(response){
       localStorage.setItem("jwt",JSON.stringify(response));
       localStorage.setItem("teacher",JSON.stringify(teacher));
-      navi("home");
+      navi("nwhm");
     }}, [response,teacher,navi] )
 
   
