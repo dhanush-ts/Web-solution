@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../api';
+import { LP } from '../Components/LP'
 
 export const LearningPath = () => {
   const [file, setFile] = useState(null);
@@ -62,6 +63,8 @@ export const LearningPath = () => {
   };
 
   return (
+    <div >
+
     <div className="mx-auto bg-white p-8 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6">Upload Learning Material</h2>
       {success && <p className="text-green-500 mb-4">File uploaded successfully!</p>}
@@ -117,6 +120,8 @@ export const LearningPath = () => {
           Upload
         </button>
       </form>
+    </div>
+    <LP />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { Interactions } from "../Components/Interactions"
 import { SutFeed } from '../Components/SutFeed';
 import { api } from '../api';
 import { LearningPath } from '../Components/LearningPath';
+import { Dashboard } from '../Components/Dashboard';
 
 export const Subject = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ export const Subject = () => {
   const [learningPathTab, setLearningPathTab] = useState(false);
   const [feedbackTab, setFeedbackTab] = useState(false);
   const [interactionTab, setInteractionTab] = useState(false);
+  const [dashTab, setDashTab] = useState(false);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -53,6 +55,7 @@ export const Subject = () => {
     setLearningPathTab(tab === 'learningPath');
     setFeedbackTab(tab === 'feedback');
     setInteractionTab(tab === 'interaction');
+    setDashTab(tab=== "dash")
   };
 
   return (
@@ -103,6 +106,17 @@ export const Subject = () => {
               </p>
             </li>
           )}
+            {teacher && (
+            <li>
+              <p    
+                onClick={() => handleTabClick('dash')}
+                className={`inline-flex cursor-pointer items-center px-4 py-3 rounded-lg w-full ${dashTab ? 'bg-blue-700 text-white dark:bg-blue-600' : 'bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white'}`}
+              >
+                <svg className="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M15 3h3.586L7.05 14.536 8.464 15.95 19 5.414V9h2V3h-6v2h4.586L6.05 15.536 7.464 16.95 18 6.414V11h2V3zm-2 6H3c-1.1 0-2 .9-2 2v11h9v-5h2v5h9V11c0-1.1-.9-2-2-2h-9z"/></svg>
+                Dashboard
+              </p>
+            </li>
+          )}
         </ul>
         <div className="w-full">
           {marksTab && (
@@ -128,6 +142,12 @@ export const Subject = () => {
               <h1 className="text-2xl font-semibold mb-4">Interactions</h1>
               <Interactions id = {id} jwt={jwt} />
             </div>
+          )}
+          {teacher && dashTab &&(
+            <div className="dash-section">
+            <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
+            <Dashboard id = {id} jwt={jwt} />
+          </div>
           )}
         </div>
       </div>
