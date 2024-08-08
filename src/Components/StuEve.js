@@ -45,7 +45,8 @@ export const StuEve = () => {
       };
 
   return (
-    <ol className="relative border-l border-gray-200 dark:border-gray-700">
+    <div className="flex">
+    <ol className="relative flex flex-col m-6 w-96 border-l border-gray-200 dark:border-gray-700">
       {resu.map(event => (
         <li key={event.id} className="mb-4 ml-4">
           <div className="absolute w-3 h-3 bg-gray-200 rounded-full -left-1.5 mt-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
@@ -55,5 +56,6 @@ export const StuEve = () => {
         </li>
       ))}
     </ol>
+    </div>
   )
 }

@@ -4,12 +4,13 @@ import { api } from '../api';
 
 export const LearningPath = () => {
   const [file, setFile] = useState(null);
-  const [category, setCategory] = useState('');
-  const subjectID = useParams("id").id;
+  const [category, setCategory] = useState(0); // Default to "Common"
   const [name, setName] = useState('');
-  
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+  const subjectID = useParams("id").id;
 
-  const jwt = JSON.parse(localStorage.getItem("jwt"))
+  const jwt = JSON.parse(localStorage.getItem("jwt"));
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -21,6 +22,8 @@ export const LearningPath = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuccess(false);
+    setError('');
 
     const formData = new FormData();
     formData.append('file', file);
@@ -44,14 +47,25 @@ export const LearningPath = () => {
 
       const data = await response.json();
       console.log('Success:', data);
+      setSuccess(true);
+      resetForm();
     } catch (error) {
       console.error('Error:', error);
+      setError('Failed to upload the file. Please try again.');
     }
+  };
+
+  const resetForm = () => {
+    setFile(null);
+    setCategory(0);
+    setName('');
   };
 
   return (
     <div className="mx-auto bg-white p-8 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6">Upload Learning Material</h2>
+      {success && <p className="text-green-500 mb-4">File uploaded successfully!</p>}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="file">
@@ -69,14 +83,19 @@ export const LearningPath = () => {
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
             Category
           </label>
-          <input
-            type="text"
+          <select
             id="category"
             value={category}
             onChange={handleCategoryChange}
             className="w-full px-3 py-2 border rounded-lg"
             required
-          />
+          >
+            <option value="0">Common</option>
+            <option value="1">Weak Learner</option>
+            <option value="2">Average</option>
+            <option value="3">Good</option>
+            <option value="4">Topper</option>
+          </select>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
@@ -101,4 +120,3 @@ export const LearningPath = () => {
     </div>
   );
 };
-

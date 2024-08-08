@@ -44,7 +44,7 @@ export const LP = () => {
 
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
+    <div className="mx-auto bg-white p-8 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6">Learning Files</h2>
       {resu.map((file, index) => (
         <div key={index} className="mb-4 p-4 bg-gray-100 rounded-lg shadow-sm">
@@ -59,15 +59,15 @@ export const LP = () => {
               </svg>
             </div>
             <div className="ml-4">
+              <p className="text-lg font-semibold text-gray-500">{file.name}</p>
               <a
                 href={file.file}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-lg font-semibold text-blue-600 hover:underline"
+                className="text-blue-600 hover:underline"
               >
                 Download File
               </a>
-              <p className="text-gray-500">Category: {file.category}</p>
             </div>
           </div>
         </div>
